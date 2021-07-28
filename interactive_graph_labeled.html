@@ -1,0 +1,554 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    
+      <meta charset="utf-8">
+      <title>Bokeh Plot</title>
+      
+      
+        
+          
+        <style>
+            table.panel-df {
+                    margin-left: auto;
+                    margin-right: auto;
+                    border: none;
+                    border-collapse: collapse;
+                    border-spacing: 0;
+                    color: black;
+                    font-size: 12px;
+                    table-layout: fixed;
+                    width: 100%;
+                }
+
+                .panel-df tr, .panel-df th, .panel-df td {
+                    text-align: right;
+                    vertical-align: middle;
+                    padding: 0.5em 0.5em !important;
+                    line-height: normal;
+                    white-space: normal;
+                    max-width: none;
+                    border: none;
+                }
+
+                .panel-df tbody {
+                    display: table-row-group;
+                    vertical-align: middle;
+                    border-color: inherit;
+                }
+
+                .panel-df tbody tr:nth-child(odd) {
+                    background: #f5f5f5;
+                }
+
+                .panel-df thead {
+                    border-bottom: 1px solid black;
+                    vertical-align: bottom;
+                }
+
+                .panel-df tr:hover {
+                    background: lightblue !important;
+                    cursor: pointer;
+                }
+
+        </style>
+        <style>
+            .json-formatter-row {
+                  font-family: monospace;
+                }
+                .json-formatter-row,
+                .json-formatter-row a,
+                .json-formatter-row a:hover {
+                  color: black;
+                  text-decoration: none;
+                }
+                .json-formatter-row .json-formatter-row {
+                  margin-left: 1rem;
+                }
+                .json-formatter-row .json-formatter-children.json-formatter-empty {
+                  opacity: 0.5;
+                  margin-left: 1rem;
+                }
+                .json-formatter-row .json-formatter-children.json-formatter-empty:after {
+                  display: none;
+                }
+                .json-formatter-row .json-formatter-children.json-formatter-empty.json-formatter-object:after {
+                  content: "No properties";
+                }
+                .json-formatter-row .json-formatter-children.json-formatter-empty.json-formatter-array:after {
+                  content: "[]";
+                }
+                .json-formatter-row .json-formatter-string,
+                .json-formatter-row .json-formatter-stringifiable {
+                  color: green;
+                  white-space: pre;
+                  word-wrap: break-word;
+                }
+                .json-formatter-row .json-formatter-number {
+                  color: blue;
+                }
+                .json-formatter-row .json-formatter-boolean {
+                  color: red;
+                }
+                .json-formatter-row .json-formatter-null {
+                  color: #855A00;
+                }
+                .json-formatter-row .json-formatter-undefined {
+                  color: #ca0b69;
+                }
+                .json-formatter-row .json-formatter-function {
+                  color: #FF20ED;
+                }
+                .json-formatter-row .json-formatter-date {
+                  background-color: rgba(0, 0, 0, 0.05);
+                }
+                .json-formatter-row .json-formatter-url {
+                  text-decoration: underline;
+                  color: blue;
+                  cursor: pointer;
+                }
+                .json-formatter-row .json-formatter-bracket {
+                  color: blue;
+                }
+                .json-formatter-row .json-formatter-key {
+                  color: #00008B;
+                  padding-right: 0.2rem;
+                }
+                .json-formatter-row .json-formatter-toggler-link {
+                  cursor: pointer;
+                }
+                .json-formatter-row .json-formatter-toggler {
+                  line-height: 1.2rem;
+                  font-size: 0.7rem;
+                  vertical-align: middle;
+                  opacity: 0.6;
+                  cursor: pointer;
+                  padding-right: 0.2rem;
+                }
+                .json-formatter-row .json-formatter-toggler:after {
+                  display: inline-block;
+                  transition: transform 100ms ease-in;
+                  content: "\25BA";
+                }
+                .json-formatter-row > a > .json-formatter-preview-text {
+                  opacity: 0;
+                  transition: opacity 0.15s ease-in;
+                  font-style: italic;
+                }
+                .json-formatter-row:hover > a > .json-formatter-preview-text {
+                  opacity: 0.6;
+                }
+                .json-formatter-row.json-formatter-open > .json-formatter-toggler-link .json-formatter-toggler:after {
+                  transform: rotate(90deg);
+                }
+                .json-formatter-row.json-formatter-open > .json-formatter-children:after {
+                  display: inline-block;
+                }
+                .json-formatter-row.json-formatter-open > a > .json-formatter-preview-text {
+                  display: none;
+                }
+                .json-formatter-row.json-formatter-open.json-formatter-empty:after {
+                  display: block;
+                }
+                .json-formatter-dark.json-formatter-row {
+                  font-family: monospace;
+                }
+                .json-formatter-dark.json-formatter-row,
+                .json-formatter-dark.json-formatter-row a,
+                .json-formatter-dark.json-formatter-row a:hover {
+                  color: white;
+                  text-decoration: none;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-row {
+                  margin-left: 1rem;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-children.json-formatter-empty {
+                  opacity: 0.5;
+                  margin-left: 1rem;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-children.json-formatter-empty:after {
+                  display: none;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-children.json-formatter-empty.json-formatter-object:after {
+                  content: "No properties";
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-children.json-formatter-empty.json-formatter-array:after {
+                  content: "[]";
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-string,
+                .json-formatter-dark.json-formatter-row .json-formatter-stringifiable {
+                  color: #31F031;
+                  white-space: pre;
+                  word-wrap: break-word;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-number {
+                  color: #66C2FF;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-boolean {
+                  color: #EC4242;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-null {
+                  color: #EEC97D;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-undefined {
+                  color: #ef8fbe;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-function {
+                  color: #FD48CB;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-date {
+                  background-color: rgba(255, 255, 255, 0.05);
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-url {
+                  text-decoration: underline;
+                  color: #027BFF;
+                  cursor: pointer;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-bracket {
+                  color: #9494FF;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-key {
+                  color: #23A0DB;
+                  padding-right: 0.2rem;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-toggler-link {
+                  cursor: pointer;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-toggler {
+                  line-height: 1.2rem;
+                  font-size: 0.7rem;
+                  vertical-align: middle;
+                  opacity: 0.6;
+                  cursor: pointer;
+                  padding-right: 0.2rem;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-toggler:after {
+                  display: inline-block;
+                  transition: transform 100ms ease-in;
+                  content: "\25BA";
+                }
+                .json-formatter-dark.json-formatter-row > a > .json-formatter-preview-text {
+                  opacity: 0;
+                  transition: opacity 0.15s ease-in;
+                  font-style: italic;
+                }
+                .json-formatter-dark.json-formatter-row:hover > a > .json-formatter-preview-text {
+                  opacity: 0.6;
+                }
+                .json-formatter-dark.json-formatter-row.json-formatter-open > .json-formatter-toggler-link .json-formatter-toggler:after {
+                  transform: rotate(90deg);
+                }
+                .json-formatter-dark.json-formatter-row.json-formatter-open > .json-formatter-children:after {
+                  display: inline-block;
+                }
+                .json-formatter-dark.json-formatter-row.json-formatter-open > a > .json-formatter-preview-text {
+                  display: none;
+                }
+                .json-formatter-dark.json-formatter-row.json-formatter-open.json-formatter-empty:after {
+                  display: block;
+                }
+
+        </style>
+        <style>
+            .codehilite .hll { background-color: #ffffcc }
+                .codehilite  { background: #f8f8f8; }
+                .codehilite .c { color: #408080; font-style: italic } /* Comment */
+                .codehilite .err { border: 1px solid #FF0000 } /* Error */
+                .codehilite .k { color: #008000; font-weight: bold } /* Keyword */
+                .codehilite .o { color: #666666 } /* Operator */
+                .codehilite .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+                .codehilite .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+                .codehilite .cp { color: #BC7A00 } /* Comment.Preproc */
+                .codehilite .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+                .codehilite .c1 { color: #408080; font-style: italic } /* Comment.Single */
+                .codehilite .cs { color: #408080; font-style: italic } /* Comment.Special */
+                .codehilite .gd { color: #A00000 } /* Generic.Deleted */
+                .codehilite .ge { font-style: italic } /* Generic.Emph */
+                .codehilite .gr { color: #FF0000 } /* Generic.Error */
+                .codehilite .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+                .codehilite .gi { color: #00A000 } /* Generic.Inserted */
+                .codehilite .go { color: #888888 } /* Generic.Output */
+                .codehilite .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+                .codehilite .gs { font-weight: bold } /* Generic.Strong */
+                .codehilite .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+                .codehilite .gt { color: #0044DD } /* Generic.Traceback */
+                .codehilite .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+                .codehilite .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+                .codehilite .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+                .codehilite .kp { color: #008000 } /* Keyword.Pseudo */
+                .codehilite .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+                .codehilite .kt { color: #B00040 } /* Keyword.Type */
+                .codehilite .m { color: #666666 } /* Literal.Number */
+                .codehilite .s { color: #BA2121 } /* Literal.String */
+                .codehilite .na { color: #7D9029 } /* Name.Attribute */
+                .codehilite .nb { color: #008000 } /* Name.Builtin */
+                .codehilite .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+                .codehilite .no { color: #880000 } /* Name.Constant */
+                .codehilite .nd { color: #AA22FF } /* Name.Decorator */
+                .codehilite .ni { color: #999999; font-weight: bold } /* Name.Entity */
+                .codehilite .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+                .codehilite .nf { color: #0000FF } /* Name.Function */
+                .codehilite .nl { color: #A0A000 } /* Name.Label */
+                .codehilite .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+                .codehilite .nt { color: #008000; font-weight: bold } /* Name.Tag */
+                .codehilite .nv { color: #19177C } /* Name.Variable */
+                .codehilite .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+                .codehilite .w { color: #bbbbbb } /* Text.Whitespace */
+                .codehilite .mb { color: #666666 } /* Literal.Number.Bin */
+                .codehilite .mf { color: #666666 } /* Literal.Number.Float */
+                .codehilite .mh { color: #666666 } /* Literal.Number.Hex */
+                .codehilite .mi { color: #666666 } /* Literal.Number.Integer */
+                .codehilite .mo { color: #666666 } /* Literal.Number.Oct */
+                .codehilite .sa { color: #BA2121 } /* Literal.String.Affix */
+                .codehilite .sb { color: #BA2121 } /* Literal.String.Backtick */
+                .codehilite .sc { color: #BA2121 } /* Literal.String.Char */
+                .codehilite .dl { color: #BA2121 } /* Literal.String.Delimiter */
+                .codehilite .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+                .codehilite .s2 { color: #BA2121 } /* Literal.String.Double */
+                .codehilite .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+                .codehilite .sh { color: #BA2121 } /* Literal.String.Heredoc */
+                .codehilite .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+                .codehilite .sx { color: #008000 } /* Literal.String.Other */
+                .codehilite .sr { color: #BB6688 } /* Literal.String.Regex */
+                .codehilite .s1 { color: #BA2121 } /* Literal.String.Single */
+                .codehilite .ss { color: #19177C } /* Literal.String.Symbol */
+                .codehilite .bp { color: #008000 } /* Name.Builtin.Pseudo */
+                .codehilite .fm { color: #0000FF } /* Name.Function.Magic */
+                .codehilite .vc { color: #19177C } /* Name.Variable.Class */
+                .codehilite .vg { color: #19177C } /* Name.Variable.Global */
+                .codehilite .vi { color: #19177C } /* Name.Variable.Instance */
+                .codehilite .vm { color: #19177C } /* Name.Variable.Magic */
+                .codehilite .il { color: #666666 } /* Literal.Number.Integer.Long */
+
+                .markdown h1 { margin-block-start: 0.34em }
+                .markdown h2 { margin-block-start: 0.42em }
+                .markdown h3 { margin-block-start: 0.5em }
+                .markdown h4 { margin-block-start: 0.67em }
+                .markdown h5 { margin-block-start: 0.84em }
+                .markdown h6 { margin-block-start: 1.17em }
+                .markdown ul { padding-inline-start: 2em }
+                .markdown ol { padding-inline-start: 2em }
+                .markdown strong { font-weight: 600 }
+                .markdown a { color: -webkit-link }
+                .markdown a { color: -moz-hyperlinkText }
+
+        </style>
+        <style>
+            .panel-widget-box {
+                	min-height: 20px;
+                	background-color: #f5f5f5;
+                	border: 1px solid #e3e3e3 !important;
+                	border-radius: 4px;
+                	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+                	box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+                	overflow-x: hidden;
+                	overflow-y: hidden;
+                }
+
+                .scrollable {
+                  overflow: scroll;
+                }
+
+                progress {
+                	appearance: none;
+                	-moz-appearance: none;
+                	-webkit-appearance: none;
+
+                	border: none;
+                	height: 20px;
+                	background-color: whiteSmoke;
+                	border-radius: 3px;
+                	box-shadow: 0 2px 3px rgba(0,0,0,.5) inset;
+                	color: royalblue;
+                	position: relative;
+                	margin: 0 0 1.5em;
+                }
+
+                progress[value]::-webkit-progress-bar {
+                	background-color: whiteSmoke;
+                	border-radius: 3px;
+                	box-shadow: 0 2px 3px rgba(0,0,0,.5) inset;
+                }
+
+                progress[value]::-webkit-progress-value {
+                	position: relative;
+
+                	background-size: 35px 20px, 100% 100%, 100% 100%;
+                	border-radius:3px;
+                }
+
+                progress.active:not([value])::before {
+                	background-position: 10%;
+                	animation-name: stripes;
+                	animation-duration: 3s;
+                	animation-timing-function: linear;
+                	animation-iteration-count: infinite;
+                }
+
+                progress[value]::-moz-progress-bar {
+                	background-size: 35px 20px, 100% 100%, 100% 100%;
+                	border-radius:3px;
+                }
+
+                progress:not([value])::-moz-progress-bar {
+                	border-radius:3px;
+                	background:
+                	linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, 0.2) 33%, rgba(0, 0, 0, 0.2) 66%, transparent 66%) left/2.5em 1.5em;
+
+                }
+
+                progress.active:not([value])::-moz-progress-bar {
+                	background-position: 10%;
+                	animation-name: stripes;
+                	animation-duration: 3s;
+                	animation-timing-function: linear;
+                	animation-iteration-count: infinite;
+                }
+
+                progress.active:not([value])::-webkit-progress-bar {
+                	background-position: 10%;
+                	animation-name: stripes;
+                	animation-duration: 3s;
+                	animation-timing-function: linear;
+                	animation-iteration-count: infinite;
+                }
+
+                progress.primary[value]::-webkit-progress-value { background-color: #007bff; }
+                progress.primary:not([value])::before { background-color: #007bff; }
+                progress.primary:not([value])::-webkit-progress-bar { background-color: #007bff; }
+                progress.primary::-moz-progress-bar { background-color: #007bff; }
+
+                progress.secondary[value]::-webkit-progress-value { background-color: #6c757d; }
+                progress.secondary:not([value])::before { background-color: #6c757d; }
+                progress.secondary:not([value])::-webkit-progress-bar { background-color: #6c757d; }
+                progress.secondary::-moz-progress-bar { background-color: #6c757d; }
+
+                progress.success[value]::-webkit-progress-value { background-color: #28a745; }
+                progress.success:not([value])::before { background-color: #28a745; }
+                progress.success:not([value])::-webkit-progress-bar { background-color: #28a745; }
+                progress.success::-moz-progress-bar { background-color: #28a745; }
+
+                progress.danger[value]::-webkit-progress-value { background-color: #dc3545; }
+                progress.danger:not([value])::before { background-color: #dc3545; }
+                progress.danger:not([value])::-webkit-progress-bar { background-color: #dc3545; }
+                progress.danger::-moz-progress-bar { background-color: #dc3545; }
+
+                progress.warning[value]::-webkit-progress-value { background-color: #ffc107; }
+                progress.warning:not([value])::before { background-color: #ffc107; }
+                progress.warning:not([value])::-webkit-progress-bar { background-color: #ffc107; }
+                progress.warning::-moz-progress-bar { background-color: #ffc107; }
+
+                progress.info[value]::-webkit-progress-value { background-color: #17a2b8; }
+                progress.info:not([value])::before { background-color: #17a2b8; }
+                progress.info:not([value])::-webkit-progress-bar { background-color: #17a2b8; }
+                progress.info::-moz-progress-bar { background-color: #17a2b8; }
+
+                progress.light[value]::-webkit-progress-value { background-color: #f8f9fa; }
+                progress.light:not([value])::before { background-color: #f8f9fa; }
+                progress.light:not([value])::-webkit-progress-bar { background-color: #f8f9fa; }
+                progress.light::-moz-progress-bar { background-color: #f8f9fa; }
+
+                progress.dark[value]::-webkit-progress-value { background-color: #343a40; }
+                progress.dark:not([value])::-webkit-progress-bar { background-color: #343a40; }
+                progress.dark:not([value])::before { background-color: #343a40; }
+                progress.dark::-moz-progress-bar { background-color: #343a40; }
+
+                progress:not([value])::-webkit-progress-bar {
+                	border-radius: 3px;
+                	background:
+                	linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, 0.2) 33%, rgba(0, 0, 0, 0.2) 66%, transparent 66%) left/2.5em 1.5em;
+                }
+                progress:not([value])::before {
+                	content:" ";
+                	position:absolute;
+                	height: 20px;
+                	top:0;
+                	left:0;
+                	right:0;
+                	bottom:0;
+                	border-radius: 3px;
+                	background:
+                	linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, 0.2) 33%, rgba(0, 0, 0, 0.2) 66%, transparent 66%) left/2.5em 1.5em;
+                }
+
+                @keyframes stripes {
+                  from {background-position: 0%}
+                  to {background-position: 100%}
+                }
+
+        </style>
+        
+        
+          
+        <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-2.1.1.min.js" integrity="sha384-kLr4fYcqcSpbuI95brIH3vnnYCquzzSxHPU6XGQCIkQRGJwhg0StNbj1eegrHs12" crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            Bokeh.set_log_level("info");
+        </script>
+        
+      
+      
+    
+  </head>
+  
+  
+  <body>
+    
+      
+        
+          
+          
+            
+              <div class="bk-root" id="dddc44f3-4f9d-4a07-be16-adb92f89c656" data-root-id="5136"></div>
+            
+          
+        
+      
+      
+        <script type="application/json" id="5792">
+          {"b8be2b77-ff05-498c-9e91-cde9c66eea2e":{"roots":{"references":[{"attributes":{"plot_height":800,"plot_width":800,"renderers":[{"id":"5152"}],"title":{"id":"5151"},"toolbar":{"id":"5145"},"x_range":{"id":"5134"},"x_scale":{"id":"5392"},"y_range":{"id":"5135"},"y_scale":{"id":"5391"}},"id":"5136","type":"Plot"},{"attributes":{"end":2,"start":-2},"id":"5134","type":"Range1d"},{"attributes":{},"id":"5407","type":"UnionRenderers"},{"attributes":{"data":{"colors":["same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","diff","same","same","same","same","same","same","same","same","same","same","same","same","same","diff","same","same","same","same","same","same","same","same","same","diff","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","diff","same","same","same","diff","same","same","same","diff","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","same","diff","same","same","same","same","same","same","same","same","same","diff","same","same","same","same","same","same","same","same","same","same","same","diff","same","same","same","same","same","same","same","diff","same","same","same","same","same","same","same","diff","diff","same","same","diff","same","same","same","same","same","diff","same","same","same","same","same","diff","same","same","same","same","same","same","same","diff","same","same","same","diff","diff","same","same","same","same","same","same","same","same","same","same","same","same","same","same","diff","diff","same","diff","same","same","same","same","same","same","same","same","same","same","same","diff","same"],"index":[1883,1104,872,1891,917,1637,2005,1577,1890,1955,1117,1819,1824,914,2011,1702,1375,2021,1694,995,1806,1201,2200,2094,2020,792,954,887,1526,1907,772,2003,1469,2035,764,1999,2191,1885,873,796,1647,1209,2016,1667,1113,1766,2192,1648,2187,1160,1318,867,790,1455,817,1213,771,1365,1424,1690,2201,2052,1768,1313,2196,1567,1471,2115,1247,2184,874,1673,1260,2062,1348,2521,3382,3213,3022,2496,3321,2513,2384,2383,2359,2512,2333,2405,2610,2448,2241,2522,2883,2600,2271,2317,2882,3401,3258,2230,2240,3024,3403,3446,2864,2239,2582,2635,3176,2526,2524,3252,2297,2348,3184,3044,2432,2243,2799,3447,3003,3043,2242,2329,2442,2227,2232,3317,2650,3351,2829,2458,3266,2687,2592,3430,2376,2434,2235,2469,3212,2931,2231,2244,2520,2228,3439,2389,3221,2245,2225,2487,2238,2236,2656,2229,2812,2497,2285,3350,2937,562,427,225,483,312,87,27,26,582,414,222,573,317,295,572,737,569,757,296,618,494,426,686,330,610,684,614,567,384,417,391,430,162,759,566,310,622,288,431,304,423,495,411,319,734,728,425,402,413,714,438,397,639,565,429,143,418,407,422,399,398,81,586,419,200,347,306,409,400,401,405,736,170,760],"layer":["related_2","related_2","related_2","related_2","related_2","related_1","related_1","related_2","related_2","related_2","related_2","related_2","related_1","related_2","related_2","related_2","related_2","related_2","related_1","related_2","related_2","related_2","initial","related_2","related_2","related_2","related_2","related_2","related_2","related_2","initial","related_2","related_2","initial","related_2","related_1","related_2","related_2","related_1","related_2","related_2","related_1","related_2","related_2","related_2","initial","initial","related_2","related_2","initial","related_2","related_2","related_1","related_1","related_2","related_2","related_2","related_2","related_2","related_2","related_2","related_1","related_2","related_2","related_2","related_2","related_2","initial","initial","related_2","related_1","related_2","related_2","related_2","related_2","related_2","related_1","related_2","related_2","related_2","related_2","related_2","related_2","related_2","related_2","initial","related_2","related_2","related_1","related_2","initial","related_1","related_2","related_1","related_1","related_2","related_2","related_2","related_1","related_1","related_1","related_2","related_2","related_1","related_2","related_2","related_1","related_1","related_2","related_2","related_1","related_2","related_2","related_2","related_1","related_2","related_2","related_2","related_2","related_2","related_2","related_2","related_2","related_2","related_2","related_2","related_2","related_2","related_2","related_2","related_1","related_1","related_1","related_2","initial","related_1","related_2","related_2","related_1","related_2","related_1","related_1","related_1","related_2","related_1","related_2","related_2","related_2","related_2","related_2","related_2","related_2","related_2","related_1","related_2","related_2","related_2","related_2","related_2","related_2","related_1","related_2","related_2","related_1","related_1","related_2","related_2","related_2","related_1","related_2","related_2","related_1","related_1","related_2","related_2","related_2","related_1","related_2","related_2","related_1","related_2","related_1","related_2","related_2","related_2","related_1","related_1","related_2","related_2","related_1","related_2","related_2","related_2","related_2","related_1","related_2","related_2","related_1","related_2","related_2","related_2","related_1","related_2","related_2","related_2","related_2","related_2","related_2","related_1","related_2","related_2","related_2","related_1","related_2","related_1","related_1","related_2","initial","related_2","related_2","related_2","related_2","related_1","related_1","related_2","related_2","related_2","related_1","initial","related_1","related_2","related_2","related_2","related_2","initial"],"man_label":["p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","n","p","p","p","p","p","n","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","n","p","n","n","p","p","p","p","p","p","n","n","p","p","p","p","p","n","p","p","p","p","p","n","n","p","p","p","p","p","p","p","p","n","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","n","p","p","p","p","p","p","p","p","p","p","p","n","p","n","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","n","p","p","p","n","p","n","n","p","p","p","p","n","p","p","p","p","p","p","p","p","p","p","p","p","n","p","p","p","n","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","n","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","p","n","p","p","p","p","p","p","p","p","p","p","p","n","p","p","p","p","n","p","p","n","p","p","n","n","p","p","p","p","n"],"name":["UN Environment Programme in Asia Pacific","Environment , Forest and climate change Commission","IPBES","UN-REDD Programme (FAO/UNDP/UNEP)","International Science Council","Skeptical Science","World War Zero","Save the Earth, Reduce Childbirth","United Nations OCHA","Water Pollution Forum","Michael E. Mann","The Wilderness Society","Zero Hour","Intelligent Living","Extinction Rebellion Justice","TED-Ed","Pennsylvania Coalition for Responsible Government","The Years Project","UN Sustainable Development Platform","League of Conservation Voters","The Pragmatic Environmentalist","NOAA Climate.Gov","CFACT","Artists &amp; Climate Change","Yale Program on Climate Change Communication","Greenpeace Africa","Jeff Merkley","The Climate of Change Foundation","RMI","UN-Water","Global Warming","World Population Balance","Rainforest Alliance","Alliance for Climate Education","Global Ecosocialist Network","World Meteorological Organization","Climate &amp; Clean Air Coalition","Food and Agriculture Organization of the United Nations (FAO)","IPCC","Greta Thunberg Memes","Society of Environmental Journalists","NPS Climate Change Response","Yale Climate Connections","Steven Haywood Yaskell","Methane News Group","CO2 Coalition","Climate Change Dispatch","Society For Ecological Restoration (SER)","Carbon Brief","NASA Climate Change","Climate Change Research Network","International Institute for Sustainable Development (IISD)","Greenpeace Rainbow Warrior","Refutations to Anti-Nuclear Memes","Halt Copenhagen until CLIMATE GATE has been fully INVESTIGATED","National Snow and Ice Data Center","Global Warming, You and I","PAGES Past Global Changes","Power Shift Network","Superhero Clubhouse","CFACT Canada","Al Gore","The Climate Group","Oil Change U.S.","Center for Environmental Journalism","Save The World From Effects Of Global Warming","Science Under Attack: The Age of Unreason","Australian Climate Madness","Nature Climate Change","Climate Action Network Europe (CAN Europe)","IPCC Scholarship Programme","Stop Overpopulation","NB Environmental Studies","American Polar Society","Global Warming - Saving Trees","Greenpeace UK","wattsupwiththat","International Institute for Environment and Development (IIED)","Stefan Rahmstorf","Global Goals for Sustainable Development","UN Environment Programme","Greenpeace New Zealand","Environmental Defenders Office","Environmental Coffeehouse","Elders Climate Action","Greenpeace International","1,000,000 Strong Against Offshore Drilling","NCSE: The National Center for Science Education","Inside Climate News","Friends of the Earth U.S.","Climate Reality","Greenpeace USA","NRDC Action Fund","Inconvenient Facts","Conservation International","Denial101x","NRDC","WildAid","The Nature Conservancy","Climate Central","Climate Power 2020","Rainforest Action Network","National Wildlife Federation Action Fund","Our Children's Trust","Nexus Media News","Climate Patriot","I Heart Climate Scientists","Is There Global Cooling","The Story of Stuff Project","Grist.org","Greta Thunberg","Climate Change","Curious Earth","Earthworks","Sunrise Movement","Resilience: A Journal of Environmental Humanities","FFF Digital","Climate Solutions","Mothers Out Front","YOUTH v GOV Film","Project Drawdown","RepublicEn","Climate Science &amp; Policy Watch","Medical Society Consortium on Climate &amp; Health","Fire Drill Fridays","Climate Matters","The Climate Collage - Egypt","UN CC:Learn","Dr. James E. Hansen","U.S. Global Change Research Program","Nature Ecology &amp; Evolution","Forest Carbon Partnership Facility (FCPF)","Alex Epstein","Labor Network For Sustainability","I Love Carbon Dioxide","World Wide Protest Against the Global Warming SCAM","Energy for Humanity","Fridays For Future Sacramento","Climate History and Historical Climatology","Future Earth","The Global Warming Policy Forum","Environmental issues in Oromia","Climate Change Theatre Action","Climate Stories Project","Greenpeace International Picture Desk","Climate Action Tracker","Climate Facts","Environmental Issues","The Arctic Cycle","Ohio Youth for Climate Justice","Climate Change","Georgetown Climate Center","Climate One","Climate Hustle 2","John Kerry","Climate adaptation","Climate Change Facts","Global Warming Solved","Cranky Uncles","US Climate and Health Alliance","Our Climate Voices","EU Climate Action","Climate State","BBC Science News","Daily Climate","Climate and Development Knowledge Network","Adam Bandt","350 Africa","350.org","Education for Sustainable Development Education au D%C3%A9veloppement Durable","CLIMATE CHANGE SMART SOLUTIONS","BBC Future","EcoWatch","Climate Justice Alliance","Doomsday Clock","Earth Rebirth","Global Warming Fact of the Day","Earthjustice","GetUp!","Bulletin of the Atomic Scientists","Environmental Action","DeSmog","Climate Save Movement","Food &amp; Water Watch","CO2.earth","Environmental Defense Fund","Friends of Science","Environment Colorado","Earth Guardians","Citizens Climate Lobby","Climate Discussion Nexus","ClientEarth","ClimateVoice","Anthropocene magazine","Global Change Biology","Earthday.org","Citizens Climate Lobby - Los Angeles","Environment and Climate Change","The Breakthrough Institute","Climate XChange","C40 Cities","Climate Home News","DeSmog UK","Climate Change Network","Climate Literacy and Energy Awareness Network (CLEAN)","GREEN New DEAL","Green Climate Fund","Climate Outreach","Climate Change Policy &amp; Practice","Climate Change Research Centre - UNSW","Fridays For Future USA","Sabin Center for Climate Change Law","Climate Change and Global Warming","Everydayclimatechange","Earth Uprising","UNESCO Action on Climate Change","An Inconvenient Truth","Climate Depot","Climate Change is Real","Climate Feedback","Climate change","Climate ChangeGlobal Warming","Above Climate Change","Effect Of Climate Change","Shut It Down - Climate Direct Action","Australian  Climate  Realists","Carbon Market Watch","Climate Action Network-International","Climate Change LIES","Climate debate response team","Climate Access","Climate Change Impact on Global Economy","Global Warming Education Network","Arctic Methane Emergency Group","Global Climate Scam"],"page":["UNEPROAP","MefEth","IPBES","UNREDDprogramme","InternationalScience","SkepticalScience","WorldWarZeroOrg","SaveTheEarthReduceChildbirth","UNOCHA","Water-Pollution-Forum-122361961141543","MichaelMannScientist","TheWildernessSociety","ThisIsZeroHour","IntelligentLiving","XRJustice","TEDEducation","Pennsylvania-Coalition-for-Responsible-Government-136241923085699","YearsOfLiving","SustDev","LCVoters","ThePragEnvi","NOAAClimateGov","cfact","artsandclimate","YaleProgramOnClimateChangeCommunication","GreenpeaceAfrica","JeffMerkleyOregon","IanVincentCCF","RockyMtnInst","UnitedNationsWater","GlobalwarmingEva","WorldPopulationBalance","RainforestAlliance","acespace","GlobalEcoSocialistNetwork","WorldMeteorologicalOrganization","ccacoalition","UNFAO","IPCC","Greta-Thunberg-Memes-100304111377683","SocietyOfEnvironmentalJournalists","NPSClimateChange","YaleClimateConnections","Steven-Haywood-Yaskell-407976212610290","MethaneNewsGroup","TheCO2Coalition","ccdispatch","SocietyforEcologicalRestoration","carbonbrief","NASAClimateChange","OnClimate","IISDnews","Greenpeace.Rainbow.Warrior","R2ANM","Halt-Copenhagen-until-CLIMATE-GATE-has-been-fully-INVESTIGATED-336459475181","NSIDC","GlobalWarmingYouandI","PastGlobalChanges","PowerShiftNetwork","SuperheroClubhouse","cfactcanada","algore","TheClimateGroup","OilChangeUS","centerforenvironmentaljournalism","Save-The-World-From-Effects-Of-Global-Warming-398539503832141","RalphBAlexander","australianclimatemadness","NatureClimateChange","caneurope","IPCCScholarship","StopOverpopulation","NewBooksEnvironment","americanpolarsociety","PDFsSavingTrees","greenpeaceuk","wattsupwiththat-133662869999306","theIIED","rahmstorf","globalgoalsUN","unep","greenpeace.nz","environmentaldefendersoffice","environmentalcoffeehouse","eldersclimateaction","greenpeace.international","dontdrill","evolution.ncse","insideclimatenews","foe.us","climatereality","greenpeaceusa","nrdcactionfund","inconvenientfacts.xyz","conservation.intl","denial101x","nrdc.org","wildaid","thenatureconservancy","climatecentral","climatepower2020","rainforestactionnetwork","wildlifeaction","youthvgov","nexusmedianews","climatepatriot","iHeartClimateScientists","isthereglobalcooling","storyofstuff","grist.org","gretathunbergsweden","thelivingplanetandclimatechange","curious.earth.hq","earthworksaction","sunrisemvmt","resiliencejournal","fffdigital","climatesolutions","mothersoutfront","youthvgovfilm","projectdrawdown","republicen","climatesciencewatch","docsforclimate","firedrillfriday","climate.matters","climatecollageegypt","uncclearn","jimehansen","usgcrp","natecolevol","forestcarbonpartnershipfacility","thepursuitofenergy","labor4sustainability","iloveco2","wwpagws","energyforhumanity","fffsac","climatehistory","futureearth.org","theGWPF","oroenvironmentalissues","climatechangetheatreaction","climatestoriesproject","greenpeacepicdesk","climateactiontr","yearsclimatefacts","envissues","thearcticcycle","climatestrikeoh","climate.change.crusade.org","georgetownclimate","climateone","climatehustle2","johnkerry","climateadaptation","mypageonclimatechange","globalwarmingsolved","crankyuncles","usclimateandhealthalliance","ourclimatevoices","EUClimateAction","ClimateState","BBCScienceNews","DailyClimate","CDKNetwork","AdamBandtMP","350Africa.org","350.org","Education-for-Sustainable-Development-Education-au-D%C3%A9veloppement-Durable-115988995086547","ClimateChangeSmartSolutions","BBCFuture","EcoWatch","CJAOurPower","BulletinDoomsdayClock","Earthrebirthnow","GWFOTD","Earthjustice","GetUpAustralia","BulletinOfTheAtomicScientists","EnvironmentalAction","DeSmogBlog","ClimateSaveMovement","FoodandWaterWatch","CO2.Earth","EnvDefenseFund","FoSClimateEd","EnvironmentColorado","EarthGuardiansTribe","CitizensClimateLobby","ClimateDN","ClientEarth","ClimateVoiceOrg","AnthroMag","Global-Change-Biology-119917444749361","EarthDayNetwork","CCLLosAngeles","EnvironmentandClimateChange","BreakthroughInstitute","ClimateXChange","C40Cities","ClimateHomeNews","DeSmogUK","ClimateChangeNetworkUS","CLEANET","GREEN-New-DEAL-300355393946420","GCFOfficial","ClimateOutreachCOIN","ClimateChange.SDG.KnowledgeHub.IISD","ClimateChangeResearchCentre","FridaysForFutureUSA","ColumbiaClimateLaw","Climate-Change-and-Global-Warming-1996390693908922","EverydayClimateChange","Earth-Uprising-106427537392423","ClimateUNESCO","AnInconvenientTruth","ClimateDepot","ClimateChangeIs100PercentReal","ClimateFeedback","Climate-change-106270864509676","Climate-ChangeGlobal-Warming-324905208198057","AboveClimateChange","Effect-Of-Climate-Change-1189951081032559","ClimateDirectAction","AustralianClimateRealists","Carbon-Market-Watch-280090018702594","CANInternational","ClimateChangeLIES","Climate-debate-response-team-382162442600207","ClimateAccess","ClimateChangeImpact","GWENetwork","ArcticMethaneEmergencyGroup","Global-Climate-Scam-1392664020945768"],"rel_label":["b","p","b","p","p","b","p","p","p","p","b","p","p","p","p","p","n","b","b","p","n","b","n","p","b","p","p","p","p","b","p","p","p","p","n","b","p","p","b","p","p","p","p","n","n","n","n","p","b","p","p","p","p","n","n","p","p","p","p","p","n","p","b","b","p","p","n","n","p","p","b","p","p","p","n","p","n","p","n","p","b","p","n","b","p","p","p","b","b","p","p","p","p","n","p","p","p","p","p","p","b","p","p","p","b","n","b","b","p","p","b","p","p","b","b","p","p","p","p","p","p","p","p","p","p","p","p","p","b","p","p","p","n","p","n","n","n","p","p","p","b","p","p","p","p","p","n","p","p","p","p","p","p","n","p","p","p","b","n","p","p","p","p","b","b","b","n","b","b","p","p","p","b","p","n","n","p","p","n","b","p","p","p","p","n","b","b","p","p","b","n","p","p","p","p","p","p","p","n","p","b","b","n","n","p","n","p","b","b","p","p","p","p","p","p","b","p","n","n","n","p","n","b","p","p","n","p","b","n","n","p","p","p","n","n"]},"selected":{"id":"5408"},"selection_policy":{"id":"5409"}},"id":"5154","type":"ColumnDataSource"},{"attributes":{},"id":"5408","type":"Selection"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto","tools":[{"id":"5139"},{"id":"5140"},{"id":"5141"},{"id":"5142"},{"id":"5143"},{"id":"5144"}]},"id":"5145","type":"Toolbar"},{"attributes":{},"id":"5143","type":"WheelZoomTool"},{"attributes":{},"id":"5391","type":"LinearScale"},{"attributes":{"callback":null,"tooltips":[["name","@name"],["page","@page"],["layer","@layer"],["rel_label","@rel_label"],["man_label","@man_label"]]},"id":"5139","type":"HoverTool"},{"attributes":{"graph_layout":{"1104":[-0.6180047458504437,-1.623044132561139],"1113":[0.7597928664010178,-1.6734480945122832],"1117":[1.5681220570496155,-0.9854285420202614],"1160":[-0.3846119096734147,0.5929017605839273],"1201":[0.46933886498361277,-1.705289462878623],"1209":[-0.7373969939642476,-0.7401769011243116],"1213":[-1.185711730168674,-0.974659727203461],"1247":[-0.09146848817159714,0.2038614066081735],"1260":[1.2883480637960687,-1.337009768511128],"1313":[1.588580650992633,0.21114560062755033],"1318":[-1.0593109666612006,-1.1757805741788094],"1348":[1.202338983156133,-1.2473148470654967],"1365":[1.4917471550069856,-0.9759684396664221],"1375":[1.062842315661918,1.3563444306148829],"1424":[-1.444987322377006,-1.0057605946911365],"143":[-1.6578560047166369,-0.2352385201803722],"1455":[-1.6489712304495505,-0.5967425008385423],"1469":[1.7580709103776873,0.18257156108512887],"1471":[-1.5813288716739082,0.49632724253140553],"1526":[0.7524942261730797,1.5152123374673572],"1567":[1.7246640087034826,-0.4995112957135771],"1577":[-1.7388662400074473,0.3352646495661654],"162":[0.13711123938166384,-1.7864921013478965],"1637":[-0.40114810501909925,0.01995371446290868],"1647":[-0.5068725674018146,-1.4976408363651297],"1648":[1.3495201255701543,-0.9950829362463715],"1667":[1.5454500384771188,0.9047475350758301],"1673":[1.6725179971885564,0.09564793722502649],"1690":[-0.3227561291098648,-1.8],"1694":[-0.04078310804695185,0.6022890881697498],"170":[1.1611864146944704,-1.07999463943021],"1702":[1.7697355985741745,0.04795619857817216],"1766":[0.636862907717539,0.7487179674848752],"1768":[1.2609511061911443,-1.4414319020596758],"1806":[-1.3401134011739002,-1.2828104941030045],"1819":[0.3608753295897442,-1.7495515901379581],"1824":[-0.513318646032138,-0.22160440351883728],"1883":[1.751529331781558,-0.3809984062860992],"1885":[-1.7491140436898014,0.02747243268637018],"1890":[0.8349205709160412,-1.5589552537613192],"1891":[0.20710426835138362,-1.6883326861785335],"1907":[-1.3991593081245297,1.2226552850923769],"1955":[-1.070542406040549,1.3832827874461928],"1999":[-0.5399609897556739,-0.3695879524940078],"200":[-1.714254331993588,-0.30498931633135207],"2003":[1.4709128770931441,0.9786837755310106],"2005":[0.04408556673482752,0.013866948622284655],"2011":[1.4180728226930523,0.8310915389869975],"2016":[-0.6537711771610036,1.5732669071164949],"2020":[0.848610176736273,1.4851525293174448],"2021":[-1.6469972540358344,-0.8249651583945922],"2035":[-0.0523015076009593,-0.12180603618973558],"2052":[0.041259182500740225,-0.23827871267504191],"2062":[0.26614219628508307,-1.7401612124781582],"2094":[-1.1194218972778804,1.2116474489223363],"2115":[-0.03603449592807553,0.42383366124944366],"2184":[-1.545973562348593,-0.37474177700154265],"2187":[-1.491600255638573,0.6309104137034709],"2191":[-1.6601398265163696,0.4144245954644518],"2192":[0.034320653324148805,0.507359177052088],"2196":[-1.192097232818624,-1.2734237281101979],"2200":[0.5840247899910509,0.6534908248736605],"2201":[-1.533343832325603,-0.8694929638199658],"222":[-0.12225553933920827,1.3807944031919912],"2225":[-0.18113219544915704,-1.6413007669710755],"2227":[-0.570440909228812,-1.7554853993890955],"2228":[-1.5281088481802454,1.0124821930597825],"2229":[-1.2532822506158514,1.2528071561496117],"2230":[0.08513954301166815,0.06530125396986211],"2231":[-0.17731160828958256,0.020983674315775337],"2232":[1.5324556266113418,0.5565321820067368],"2235":[0.9339970978362758,0.032095461338618826],"2236":[1.689472580599275,-0.6045896248483998],"2238":[-1.7298302836341781,-0.1367735560469798],"2239":[-1.3227373660670496,-1.1029153501289943],"2240":[0.08119686236777826,0.41601099620538823],"2241":[0.3178595224940176,0.21617743933884717],"2242":[1.0889481881639826,-1.4959651235590554],"2243":[1.1657114968997289,1.3976186221421107],"2244":[1.7211005390186953,-0.05780339893120518],"2245":[-1.010202289547077,1.344785297142931],"225":[-0.16268464077550948,1.715591809209717],"2271":[-0.028664295793933647,0.7163275253711164],"2285":[-1.5859214420555607,0.7857628380292315],"2297":[-1.4806280263579403,0.7785807520172369],"2317":[-0.09039829991119312,-1.7285796491122722],"2329":[1.7597469947004998,0.4199035502788295],"2333":[0.7208886064404535,-1.5452492233100046],"2348":[-0.8097333197785681,-1.5270705666932047],"2359":[-1.6249156856282425,0.6581858342530646],"2376":[-1.4629781211551314,-1.2022130306293506],"2383":[0.9950834450830379,1.5241023313281048],"2384":[-1.1926671534948856,0.8836243387821777],"2389":[-1.69973454382499,-0.46276889265415083],"2405":[-1.2116469638740348,-1.4770139027650628],"2432":[1.3555628990292787,-1.1745621491410536],"2434":[-0.9666741053174925,1.5185784981101573],"2442":[0.0009226664256936709,1.6030429950835101],"2448":[0.9616893169354744,1.4578774310667004],"2458":[-0.7138303154463524,-1.0428263730539449],"2469":[0.00556355467225827,1.6967622423422535],"2487":[-1.4737192568250896,-0.6746446700694106],"2496":[0.2474023768380541,1.7174913568862562],"2497":[0.4763612506328987,1.5351251024989583],"2512":[0.30842213900308996,0.09186397295269777],"2513":[1.6626102857568663,-0.8300684078729408],"2520":[-0.11771453908061752,-0.01492643065297862],"2521":[1.6688795393758644,0.36883012202871757],"2522":[0.049945302503644935,0.2583502137775858],"2524":[1.7396132210581263,0.5521411649859361],"2526":[-1.6831632309552345,0.1207451949163435],"2582":[0.34755365076499783,-0.3325188997384332],"2592":[0.008214165508352573,0.34950508424418747],"26":[0.08644826828555789,0.1385451141210091],"2600":[0.07367538775853014,0.9192952015115395],"2610":[0.3282321479194962,-0.3596445381150887],"2635":[0.8714935792215465,0.21160496447087013],"2650":[1.2785862654810998,-0.8029144104157107],"2656":[1.7415395825637794,-0.24065154700601593],"2687":[1.4780743268866756,-1.1137411541145086],"27":[-0.8099241664238327,1.5836002771116464],"2799":[0.9099024655393806,-1.6454720494488646],"2812":[1.593920084649825,0.6382557796758276],"2829":[-0.23871828578530213,1.6428515084619664],"2864":[-0.45950396736283855,-1.6878291128185772],"288":[-1.4308493438461503,-0.8580125624574774],"2882":[-0.47169430089824393,1.532117014550831],"2883":[-0.10689042258436081,1.661207977470546],"2931":[-1.1736478927766645,-0.7075463686900877],"2937":[0.14570336997109792,-0.47730359235660147],"295":[-1.516046528848011,0.9253984649686622],"296":[-0.994603069677147,0.6323457813200045],"3003":[-1.237098192097672,-1.3136958726480676],"3022":[-1.62744405290042,-0.7161515822530864],"3024":[-0.8306042824797787,-1.3759966370824035],"304":[-0.3285939909341501,1.6837492935172855],"3043":[1.685752969652811,-0.7071060651707681],"3044":[0.37384675490208846,1.6077158918725583],"306":[-0.17867425094199388,-0.16511827195003967],"310":[1.4648085753545175,1.1043538983116532],"312":[-1.5751055078129899,0.12149784352372692],"317":[0.9960182214293409,-1.3085827864407742],"3176":[-1.2225534186037668,0.9943640725376001],"3184":[0.6134651638850798,0.16591333656828725],"319":[0.9753205323164045,-1.5414281025082746],"3212":[0.284064998471342,0.436040269960505],"3213":[-0.4651121433965942,1.6313668812668904],"3221":[-0.9194926851598897,-1.6353824100319039],"3252":[1.7554860741369016,0.2944569346560936],"3258":[0.4928520889748456,0.07576940328073921],"3266":[1.3728612634329755,1.0668980892611413],"330":[-0.3574558548213268,1.5943177013419818],"3317":[1.5690592314812761,-0.47329444648368224],"3321":[-1.439052731184872,0.45363538902324574],"3350":[0.5264111283132268,1.6456642874984078],"3351":[0.13079650078923366,-1.5767360435852364],"3382":[0.16267018348181056,0.7087607648021491],"3401":[1.126940439126754,-1.3892794502943446],"3403":[-1.6262606286239059,-0.12857191439997095],"3430":[-0.014107119543990795,0.30412902800478814],"3439":[-1.7053445032064596,0.5507359916994126],"3446":[-0.09878546045076249,-0.6267337221520773],"3447":[-0.748984805188003,1.4809684293842622],"347":[-1.6374765104425761,-0.4011268652592896],"384":[0.3154040494975038,0.2083496577012314],"391":[0.5209766198424123,-1.7458708916560877],"397":[-0.6575221020435011,1.3972945008048767],"398":[-0.7525757956007673,-1.6759870636370446],"399":[1.4019204858059775,-1.2477141867225172],"400":[-0.2285295351362399,0.13259030711739053],"401":[-0.191893864027609,-1.7568892125173883],"402":[-0.620174984565188,0.21381677733012833],"405":[0.1055738920435393,1.7432681603531144],"407":[-0.8648402237292342,1.4068456532616955],"409":[0.16262291964786083,0.5205613230421648],"411":[1.6400543360210438,0.7461917888390673],"413":[0.14627137866280718,1.643564981287606],"414":[-1.733224986250099,0.2055596463954774],"417":[0.6442357180116027,-1.6832042614503426],"418":[0.8372492346195585,0.46629939691403305],"419":[-0.37078992314336157,-1.57537090906732],"422":[0.6014206454074686,1.5769537503727151],"423":[-0.012598693413950994,0.26729176304812485],"425":[1.1724669567293318,1.2810360381790666],"426":[-1.1850936612222422,1.3701307898866613],"427":[-1.6822278710687404,-0.02466634919569082],"429":[-0.44648825996716474,0.4947703515035281],"430":[1.524139849946181,-0.09080621797817155],"431":[-1.388104651792392,1.0890059359346997],"438":[1.0877554901723934,1.137276109387257],"483":[-0.18737846432024785,-0.0064060850749651736],"494":[-0.552664065915467,0.02043773689774728],"495":[0.6656242653538141,1.499647964976832],"562":[1.7654672928546826,-0.13317759318400432],"565":[-0.07486075453021777,0.044954501348778174],"566":[-0.8878318542885347,1.3079524365792536],"567":[-1.58553995535137,-0.5627308950363145],"569":[0.28185726558759117,1.6570993603422635],"572":[-1.0320087464702543,-1.5214006426485454],"573":[-0.5153932461631553,0.2658146858546194],"582":[0.9262255973664412,1.3330432615614518],"586":[0.45250080987624947,-0.05589684125134907],"610":[-0.1226190912268505,0.18686198511247232],"614":[0.00444281122549501,-1.6829025839307885],"618":[-0.680889176900391,-1.4903306864390042],"622":[-0.32089595095990026,-1.6727536314240932],"639":[1.2620652032088815,1.2330572518895524],"684":[0.6489786921420243,1.1077815732249532],"686":[-1.6200080873425584,0.2862282241291854],"714":[-1.510209860870035,-1.048518305014972],"728":[-1.0380858813401008,-1.3179062914930302],"734":[0.035058287273817906,-1.7566690993928518],"736":[0.7731178615735032,1.6368119395829583],"737":[0.37689395324110503,-0.382431713445797],"757":[0.4204710119885019,1.7124913831192121],"759":[0.31545534390971236,-0.20169528298835837],"760":[-0.06159891696714463,0.3468584102644574],"764":[1.3519958345230672,1.2064285257699487],"771":[1.4861972715027472,-0.6863022277995552],"772":[-0.36082390275237125,0.13862707576210898],"790":[0.8924667426234171,-0.4599924467586445],"792":[0.40721950585808986,-1.6039060240576601],"796":[1.7063433556442134,0.5192268761505603],"81":[1.2589684149670175,1.036414825768914],"817":[-0.5719881506107553,1.5501513485306722],"867":[-1.254580712220182,1.1103014946403449],"87":[0.9305792054037599,-1.4373892481604151],"872":[-0.9786441210822389,-1.442002721983218],"873":[-0.557041005451909,0.025011424029418396],"874":[-0.007501519795138281,-0.2802449474047191],"887":[1.5921448396439208,-0.8480516300249314],"914":[1.5593463688442915,0.7993854684109615],"917":[1.6493920634491113,-0.31609527838607504],"954":[-1.3810927607359929,0.8875478738312093],"995":[0.5816313593063077,-1.5939392450310483]}},"id":"5161","type":"StaticLayoutProvider"},{"attributes":{},"id":"5142","type":"SaveTool"},{"attributes":{},"id":"5395","type":"NodesOnly"},{"attributes":{"data":{"end":[2240,2610,2405,2230,423,330,2021,3321,2656,914,384,419,26,426,3003,2610,2496,3321,1907,1883,3382,684,2635,397,737,586,2931,26,384,3184,565,1824,2522,2240,3446,2937,610,1209,1885,1201,3321,1890,1907,1999,3321,306,1694,874,1907,872,2187,1201,304,26,1213,494,143,3351,3212,2600,3382,684,2635,3266,3212,1637,3382,2635,3430,423,684,296,225,873,1999,2522,2521,2513,792,2656,143,3382,400,429,2829,873,423,483,759,1209,2235,402,874,2582,3317,1999,2191,917,1891,3321,684,3266,296,1637,3258,2271,2522,790,2520,423,573,1637,1647,618,2582,494,1201,2243,1117,1313,26,2052,873,2271,3258,2240,573,2524,2610,2230,2005,1819,3321,569,2882,2448,2442,792,684,81,1471,1375,1469,3321,566,2882,2271,1819,1469,610,2522,569,2240,2610,1999,1201,1637,2243,2526,425,1209,427,494,2020,483,1117,2610,573,1637,2582,569,567,3447,2650,1424,3024,2799,614,1117,2610,2240,1637,26,1313,483,2405,2650,2383,1117,2864,2497,684,422,417,1348,411,81,796,1824,2524,347,1891,2600,3212,3382,3430,423,2582,3266,684,1455,2497,2239,81,1260,2469,2244,1365,684,1637,27,1768,423,2497,81,296,2635,414,1104,3221,1690,2094,438,3044,790,2522,2348,792,2448,2882,686,3184,26,1824,317,430,3446,565,1424,2610,1637,573,618,423,2243,1999,427,2582,384,2522,2240,573,2526,2882,610,569,2333,3043,2005,225,2021,2522,3321,2610,569,610,771,2610,427,2582,2317,2650,1637,1117,2003,295,1637,2610,2348,2240,573,495,2582,3439,26,2021,384,2285,3022,423,569,2522,1819,2882,2448,573,995,3403,618,686,2883,1526,2020,2610,310,2650,565,2020,569,3043,3446,1117,2238,2522,431,1648,162,2829,2187,2610,402,429,26,306,610,1883,312,425,483,429,3213,423,867,1891,312,2228,2469,728,3446,2432,714,2359,2245,2687,2011,2434,2191,312,874,423,582,3212,2600,3382,684,2236,3266,1567,2225,405,402,3321,304,2184,391,1768,423,2271,873,3382,684,81,3212,1637,2600,494,2497,81,200,1471,734,3430],"start":[1637,1637,1637,1637,1637,1637,2005,2005,2005,2005,1824,1824,1824,1824,1824,1824,1694,1694,1694,1694,2200,2200,2200,772,772,772,772,2035,2035,2035,2035,2035,2035,2035,2035,2035,2035,2035,1999,1999,1999,1999,1999,873,873,873,873,873,873,873,873,873,873,873,1209,1209,1209,1209,1766,1766,1766,1766,1766,1766,2192,2192,2192,2192,2192,2192,2192,2192,1160,1160,1160,790,790,790,790,2052,2052,2115,2115,1247,1247,1247,1247,1247,1247,1247,1247,1247,1247,1247,874,874,874,874,874,874,3382,3382,3382,3382,2512,2512,2512,2512,2512,2610,2610,2610,2610,2610,2610,2610,2610,2610,2610,2610,2241,2241,2241,2241,2241,2241,2241,2241,2241,2241,2241,2522,2522,2522,2522,2522,2522,2522,2600,2600,2600,2600,2271,2271,2271,2271,3258,3258,3258,3258,3258,3258,2230,2230,2230,2230,2230,2230,2230,2230,2230,2230,2230,2230,2230,2230,2240,2240,2240,2240,2240,3446,3446,3446,3446,3446,3446,3446,3446,2582,2582,2582,2582,2582,2582,2582,2582,2582,2582,2582,2635,2635,2635,2635,2635,2635,2635,2524,3184,3184,2458,2458,2592,2592,2592,2592,2592,2592,2592,2592,2592,3430,3430,3430,2235,2235,2235,2235,3212,3212,3212,3212,3212,3212,3212,3212,3212,2931,2931,2231,2231,2231,2231,2231,2520,2520,2520,2520,2520,2520,2520,2937,2937,2937,2937,2937,2937,2937,2937,483,483,483,483,483,483,483,483,483,26,26,26,26,26,26,26,26,26,26,26,222,573,573,573,573,573,573,737,737,737,737,737,737,737,737,737,296,494,494,494,494,494,494,494,494,494,494,494,494,494,494,610,610,610,610,610,610,610,610,610,610,610,610,684,384,384,384,384,384,384,384,384,384,384,384,384,759,759,759,423,423,423,423,423,423,423,423,423,423,423,402,402,402,402,402,402,402,402,402,565,565,565,565,565,565,565,565,429,429,429,429,429,418,418,418,418,418,418,586,586,586,306,306,306,306,306,306,306,306,409,409,409,409,409,409,409,409,400,400,400,400,400,760]},"selected":{"id":"5406"},"selection_policy":{"id":"5407"}},"id":"5158","type":"ColumnDataSource"},{"attributes":{"source":{"id":"5158"}},"id":"5160","type":"CDSView"},{"attributes":{"fill_color":{"field":"colors","transform":{"id":"5170"}},"size":{"units":"screen","value":10}},"id":"5153","type":"Circle"},{"attributes":{"data_source":{"id":"5158"},"glyph":{"id":"5171"},"hover_glyph":{"id":"5176"},"muted_glyph":null,"view":{"id":"5160"}},"id":"5159","type":"GlyphRenderer"},{"attributes":{"overlay":{"id":"5405"}},"id":"5140","type":"BoxZoomTool"},{"attributes":{"bottom_units":"screen","fill_alpha":0.5,"fill_color":"lightgrey","left_units":"screen","level":"overlay","line_alpha":1.0,"line_color":"black","line_dash":[4,4],"line_width":2,"right_units":"screen","top_units":"screen"},"id":"5405","type":"BoxAnnotation"},{"attributes":{"data_source":{"id":"5154"},"glyph":{"id":"5153"},"hover_glyph":null,"muted_glyph":null,"view":{"id":"5156"}},"id":"5155","type":"GlyphRenderer"},{"attributes":{},"id":"5144","type":"PanTool"},{"attributes":{},"id":"5400","type":"NodesOnly"},{"attributes":{"source":{"id":"5154"}},"id":"5156","type":"CDSView"},{"attributes":{"end":2,"start":-2},"id":"5135","type":"Range1d"},{"attributes":{"line_alpha":{"value":0.5},"line_color":{"value":"grey"}},"id":"5171","type":"MultiLine"},{"attributes":{"text":"Related FB Pages"},"id":"5151","type":"Title"},{"attributes":{},"id":"5141","type":"ResetTool"},{"attributes":{"factors":["same","diff"],"palette":["#1f77b4","#ff7f0e","#2ca02c"]},"id":"5170","type":"CategoricalColorMapper"},{"attributes":{"line_color":{"value":"green"},"line_width":{"value":2}},"id":"5176","type":"MultiLine"},{"attributes":{},"id":"5406","type":"Selection"},{"attributes":{},"id":"5409","type":"UnionRenderers"},{"attributes":{"edge_renderer":{"id":"5159"},"inspection_policy":{"id":"5395"},"layout_provider":{"id":"5161"},"node_renderer":{"id":"5155"},"selection_policy":{"id":"5400"}},"id":"5152","type":"GraphRenderer"},{"attributes":{},"id":"5392","type":"LinearScale"}],"root_ids":["5136"]},"title":"Bokeh Application","version":"2.1.1"}}
+        </script>
+        <script type="text/javascript">
+          (function() {
+            var fn = function() {
+              Bokeh.safely(function() {
+                (function(root) {
+                  function embed_document(root) {
+                    
+                  var docs_json = document.getElementById('5792').textContent;
+                  var render_items = [{"docid":"b8be2b77-ff05-498c-9e91-cde9c66eea2e","root_ids":["5136"],"roots":{"5136":"dddc44f3-4f9d-4a07-be16-adb92f89c656"}}];
+                  root.Bokeh.embed.embed_items(docs_json, render_items);
+                
+                  }
+                  if (root.Bokeh !== undefined) {
+                    embed_document(root);
+                  } else {
+                    var attempts = 0;
+                    var timer = setInterval(function(root) {
+                      if (root.Bokeh !== undefined) {
+                        clearInterval(timer);
+                        embed_document(root);
+                      } else {
+                        attempts++;
+                        if (attempts > 100) {
+                          clearInterval(timer);
+                          console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+                        }
+                      }
+                    }, 10, root)
+                  }
+                })(window);
+              });
+            };
+            if (document.readyState != "loading") fn();
+            else document.addEventListener("DOMContentLoaded", fn);
+          })();
+        </script>
+    
+  </body>
+  
+</html>
