@@ -1,0 +1,168 @@
+%%% Hlavní soubor. Zde se definují základní parametry a odkazuje se na ostatní části. %%%
+
+%% Verze pro jednostranný tisk:
+% Okraje: levý 40mm, pravý 25mm, horní a dolní 25mm
+% (ale pozor, LaTeX si sám přidává 1in)
+\documentclass[12pt,a4paper]{report}
+\setlength\textwidth{145mm}
+\setlength\textheight{247mm}
+\setlength\oddsidemargin{15mm}
+\setlength\evensidemargin{15mm}
+\setlength\topmargin{0mm}
+\setlength\headsep{0mm}
+\setlength\headheight{0mm}
+% \openright zařídí, aby následující text začínal na pravé straně knihy
+\let\openright=\clearpage
+
+%% Vytváříme PDF/A-2u
+\usepackage[a-2u]{pdfx}
+
+%% Přepneme na českou sazbu a fonty Latin Modern
+\usepackage[czech]{babel}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+
+%% Použité kódování znaků: obvykle latin2, cp1250 nebo utf8:
+\usepackage[utf8]{inputenc}
+
+%%% Další užitečné balíčky (jsou součástí běžných distribucí LaTeXu)
+\usepackage{amsmath}        % rozšíření pro sazbu matematiky
+\usepackage{amsfonts}       % matematické fonty
+\usepackage{amsthm}         % sazba vět, definic apod.
+\usepackage{bbding}         % balíček s nejrůznějšími symboly
+			    % (čtverečky, hvězdičky, tužtičky, nůžtičky, ...)
+\usepackage{bm}             % tučné symboly (příkaz \bm)
+\usepackage{graphicx}       % vkládání obrázků
+\usepackage{fancyvrb}       % vylepšené prostředí pro strojové písmo
+\usepackage{indentfirst}    % zavede odsazení 1. odstavce kapitoly
+\usepackage{natbib}         % zajištuje možnost odkazovat na literaturu
+			    % stylem AUTOR (ROK), resp. AUTOR [ČÍSLO]
+\usepackage[nottoc]{tocbibind} % zajistí přidání seznamu literatury,
+                            % obrázků a tabulek do obsahu
+\usepackage{icomma}         % inteligetní čárka v matematickém módu
+\usepackage{dcolumn}        % lepší zarovnání sloupců v tabulkách
+\usepackage{booktabs}       % lepší vodorovné linky v tabulkách
+\usepackage{paralist}       % lepší enumerate a itemize
+\usepackage{xcolor}         % barevná sazba
+
+\usepackage{float}          % umozni vkladat obrazky, tabulky etc jako floating objekty
+\hypersetup{hidelinks}      % odstrani barevne ramecky kolem linku
+\usepackage{xurl}           % lepe zalamuje url odkazy (v bibliografii) 
+
+%%% Údaje o práci
+
+% Název práce v jazyce práce (přesně podle zadání)
+\def\NazevPrace{Informační bubliny na facebookových stránkách o klimatické krizi}
+
+% Název práce v angličtině
+\def\NazevPraceEN{Filtre bubbles and facebook pages about climate crisis}
+
+% Jméno autora
+\def\AutorPrace{Mgr. Kateřina Janovská}
+
+% Rok odevzdání
+\def\RokOdevzdani{2021}
+
+% Název katedry nebo ústavu, kde byla práce oficiálně zadána
+% (dle Organizační struktury MFF UK, případně plný název pracoviště mimo MFF)
+\def\Katedra{Ústav informačních studií a knihovnictví}
+\def\KatedraEN{Institute of Information Studies and Librarianship}
+
+% Jedná se o katedru (department) nebo o ústav (institute)?
+\def\TypPracoviste{Ústav}
+\def\TypPracovisteEN{Institute}
+
+% Vedoucí práce: Jméno a příjmení s~tituly
+\def\Vedouci{Mgr. Josef Šlerka, Ph.D.}
+
+% Pracoviště vedoucího (opět dle Organizační struktury MFF)
+\def\KatedraVedouciho{Ústav informačních studií a knihovnictví}
+\def\KatedraVedoucihoEN{Institute of Information Studies and Librarianship}
+
+% Studijní program a obor
+\def\StudijniProgram{Studia nových médií}
+
+
+% Nepovinné poděkování (vedoucímu práce, konzultantovi, tomu, kdo
+% zapůjčil software, literaturu apod.)
+\def\Podekovani{Chtěla bych poděkovat svému vedoucímu práce Mgr. Josef Šlerka,~Ph.D. za empatii, porozumění, vedení i cenné rady. Dále děkuji svému partnerovi Martinovi za ochotu participovat na částech výzkumu a podporu, bez které by tato práce nemohla vzniknout. V neposlední řadě mé díky patří Petře Šimůnkové za pomoc ve chvílích, kdy jsem ji nejvíce potřebovala a mé rodině za to, že mi umožnila mé dlouhé studium. 
+}
+
+% Abstrakt (doporučený rozsah cca 80-200 slov; nejedná se o zadání práce)
+\def\Abstrakt{Mezi největší výzvy současné společnosti patří klimatická krize. A přestože její existence podléhá vědeckému konsensu, mezi veřejností se jedná o silně polarizační téma. Svůj podíl na tom má také sociální síť Facebook, která se stala platformou pro šíření dezinformací a filtračních bublin. Tato diplomová práce analyzuje potenciál vzniku filtračních bublin na facebookových stránkách, které se svým obsahem věnují tématu klimatické změny - se zaměřením na návrhy doporučení podobných stránek. Tyto stránky rozděluje podle jejich postoje k existenci antropocentrické klimatické změny.
+}
+\def\AbstraktEN{The climate crisis is one of the biggest challenges society is facing today. And while its existence is subject to scientific consensus, it is a highly polarising issue among the public. The social network Facebook, which has become a platform for spreading misinformation and filter bubbles, has also played its part. This thesis analyses the potential risk of filter bubbles being created on Facebook pages that address the topic of climate change - with a focus on similar pages suggestions. It categorizes these pages according to their stance on the existence of anthropocentric climate change.
+}
+
+% 3 až 5 klíčových slov (doporučeno), každé uzavřeno ve složených závorkách
+\def\KlicovaSlova{%
+{filtrační bubliny}, {informační bubliny}, {klimatická změna}, {komnata ozvěn}, {Facebook}
+}
+\def\KlicovaSlovaEN{%
+{filter bubbles}, {information bubbles}, {climate change}, {echo chambers}, {Facebook}
+}
+
+%% Balíček hyperref, kterým jdou vyrábět klikací odkazy v PDF,
+%% ale hlavně ho používáme k uložení metadat do PDF (včetně obsahu).
+%% Většinu nastavítek přednastaví balíček pdfx.
+\hypersetup{unicode}
+\hypersetup{
+  colorlinks   = true, %Colours links instead of ugly boxes
+  urlcolor     = blue, %Colour for external hyperlinks
+  linkcolor    = blue, %Colour of internal links
+  citecolor    = red,   %Colour of citations
+  breaklinks   = true
+}
+
+%% Definice různých užitečných maker (viz popis uvnitř souboru)
+\include{makra}
+
+%% Titulní strana a různé povinné informační strany
+\begin{document}
+\include{titulka}
+
+%%% Jednotlivé kapitoly práce jsou pro přehlednost uloženy v samostatných souborech
+\include{kapitoly/0_uvod}
+\include{kapitoly/1_kap}
+\include{kapitoly/2_kap}
+\include{kapitoly/3_kap}
+\include{kapitoly/4_kap}
+\include{kapitoly/5_kap}
+\include{kapitoly/6_kap}
+\include{kapitoly/7_kap}
+\include{kapitoly/8_kap}
+\include{kapitoly/9_zaver}
+
+%%% Seznam použité literatury
+\include{literatura}
+
+%%% Obrázky v diplomové práci
+%%% (pokud jich je malé množství, obvykle není třeba seznam uvádět)
+\listoffigures
+
+%%% Tabulky v diplomové práci (opět nemusí být nutné uvádět)
+%%% U matematických prací může být lepší přemístit seznam tabulek na začátek práce.
+\listoftables
+
+%%% Použité zkratky v diplomové práci (opět nemusí být nutné uvádět)
+%%% U matematických prací může být lepší přemístit seznam zkratek na začátek práce.
+% \chapwithtoc{Seznam použitých zkratek}
+
+%%% Přílohy k diplomové práci, existují-li. Každá příloha musí být alespoň jednou
+%%% odkazována z vlastního textu práce. Přílohy se číslují.
+%%%
+%%% Do tištěné verze se spíše hodí přílohy, které lze číst a prohlížet (dodatečné
+%%% tabulky a grafy, různé textové doplňky, ukázky výstupů z počítačových programů,
+%%% apod.). Do elektronické verze se hodí přílohy, které budou spíše používány
+%%% v elektronické podobě než čteny (zdrojové kódy programů, datové soubory,
+%%% interaktivní grafy apod.). Elektronické přílohy se nahrávají do SISu a lze
+%%% je také do práce vložit na CD/DVD. Povolené formáty souborů specifikuje
+%%% opatření rektora č. 72/2017.
+% \appendix
+% \chapter{Přílohy}
+
+% \section{První příloha}
+
+\openright
+\end{document}

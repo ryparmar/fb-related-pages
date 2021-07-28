@@ -1,0 +1,55 @@
+\chapter{Výsledky analýzy}
+\label{chapter:diskuze}
+    V praktické části této práce byla uskutečněna obsahová analýza, jejímž hlav\-ním cílem bylo zjistit, zda facebookový algoritmus napomáhá prolamování informačních bublin na stránkách, které se zabývají klimatickou krizí. Na základě tohoto cíle byly následně stanoveny tři výzkumné otázky: 
+    
+    \begin{enumerate}
+    \item Pomáhá Facebook prolamovat filtrační bubliny doporučováním stránek s různým postojem ke klimatické krizi?
+    \item Jaká je frekvence doporučení stránek pro nebo proti klimatické krizi?
+    \item Jak se liší interakce na doporučovaných stránkách pro a proti klimatické krizi?
+    \end{enumerate}
+
+Jak se ukázalo, facebookový algoritmus není příliš úspěšný v prolamování filtračních bublin. To je například demonstrováno na téměř nulovém prolomení bubliny u stránek, které mají pozitivní postoj k existenci klimatické změny (viz kapitola \ref{sec:prolomeni-bubliny}). Jak je možné vidět v tabulce \ref{table:prolomeni-bubliny-pro} k prolomení filtrační bubliny došlo jen u sedmi stránek \uv{pro}. Přestože u stránek s negativním postojem k existenci klimatické změny docházelo průměrně k častějšímu prolomení, na každou stránku \uv{proti} bylo doporučeno asi 1.5 stránky \uv{pro} (viz kapitola \ref{sec:prolomeni-bubliny}), nedocházelo k němu u všech stránek se stejnou mírou, ale bublina byla ve skutečnosti prolomena pouze u patnácti stránek (viz tabulka \ref{table:prolomeni-bubliny-proti}). Při takovéto míře úspěšnosti se nedá říci, že by Facebook bubliny prolamoval. Nedá se dokonce ani tvrdit, že všechny stránky o klimatické změně jsou doporučovány rovnocenně.\footnote{Interaktivní graf prolomení bublin~\ref{fig:fb-klima-stranky-bubliny}, kód, který byl využit pro stažení dat i veškerá data lze dohledat na: github.com/ryparmar/fb-related-pages}
+
+Frekvence doporučování stránek byla celkově vyšší pro stránky s pozitivním postojem k existenci klimatické změny. V doporučení se takových stránek objevilo 540 oproti 140 stránkám s negativním postojem (viz obrázek \ref{fig:fb-klima-stranky-sireni}). To je přibližně 1 stránka \uv{proti} na 3.5 stránky \uv{pro}. To souvisí také s tím, že unikátních stránek \uv{proti} bylo v datasetu obecně méně, něž stránek \uv{pro}. Na každých 6 doporučených stránek \uv{pro} totiž připadala pouze jedna stránka \uv{proti} (viz obrázek \ref{fig:fb-klima-stranky-kategorie}). Z toho vyplývá, že stránky s negativním postojem k existenci klimatické změny se v doporučeních opakovaly mnohem častěji, než stránky s opačným postojem. Každá unikátní stránka \uv{proti} se opakovala více než 3.5x (jak je popsáno v kapitole \ref{sec:prolomeni-bubliny}). Malá skupina stránek \uv{pro} i \uv{proti} byla doporučována mnohonásobně více, oproti ostatním stránkám. Tyto stránky se nevyznačovaly žádnou společnou charakteristikou. Jednalo se o stránky různé velikosti (podle počtu fanoušků), kredibility i typu názvu. Osm nejšířenějších stránek je možné nahlédnout v tabulce \ref{fig:fb-klima-stranky-sireni}.  
+
+Z první výzkumné otázky také vycházely stanovené hypotézy:
+
+   \setlength\parskip{5mm}
+   
+    \emph{H1: Facebook doporučuje všechny stránky o klimatické změně stejnou měrou bez ohledu na jejich postoj.}
+    
+    \setlength\parskip{0mm}
+
+    \emph{H2: Facebookový algoritmus posiluje vznik filtračních bublin na stránkách, které se věnují klimatické krizi.}
+    
+    \setlength\parskip{5mm}
+   
+Na základě výsledků analýzy proto můžeme říci, že hypotéza H2 byla potvrzena neboť facebookový algoritmus nebojuje úspěšně s filtračními bublinami a uživatelům nedoporučuje stránky s pozitivním a negativním postojem ke klimatické změně ekvivalentně bez ohledu na jejich postoj. 
+\setlength\parskip{0mm}
+
+Nakonec bylo v rámci provedeného výzkumu zkoumáno, jak se liší interakce na stránkách s pozitivním a s negativním postojem ke klimatické změně. Tato část analýzy (jejíž vyhodnocení je možné dohledat v kapitole \ref{sec:interakce}) byla zpracována s cílem vnést do tématiky širší kontext, který by nám mohl pomoci pochopit, zda mají interakce nějaký vliv na doporučení stránek. Bylo zjištěno, že lidé na stránkách \uv{proti} klimatické změně častěji s příspěvky interagují. Oproti stránkám \uv{pro} pak obsah více sdílejí a komentují. Naopak lidé s kladným postojem ke klimatické změně častěji používají reakce, které jsou vyjádřením nějaké pozitivní emoce. 
+
+Nebyla ovšem zjištěna žádná přímá souvislost mezi prolomením filtrační bubliny a množstvím reakcí. Stránky s negativním postojem ke klimatické změně, které prolomily filtrační bublinu se sice pohybovaly mezi prvními dvaceti stránkami s největšími počty interakcí, ale nepatřily mezi vrchních 10 stránek. Vzhledem k celkovému počtu stránek \uv{proti} (40) navíc objektivně není tak těžké získat dobré umístění. U stránek \uv{pro}, které byly úspěšné v prolamování stránek \uv{proti} se navíc ukázalo, že se jedná o stránky, které se v počtu interakcí nachází na různých příčkách žebříčku - jak na začátku, tak i na jeho konci. 
+     
+%%------------------------------------------------------------------------
+\section{Diskuze}
+\label{sec:limity-doporuceni}
+    Na první limity výzkumu narážíme ještě před prvotním sběrem dat. U doporučených stránek není jasné, podle jakých kritérií jsou stránky nabízeny. To výrazně ovlivňuje replikovatelnost celého výzkumu. Doporučení totiž nejsou stoprocentně stejná pro všechny uživatele a ještě k tomu se mění v čase. 
+    
+    Ke způsobu doporučování sice nebyla provedena rozsáhlá kvantitativní analý\-za, ale před začátkem výzkumu byl proveden krátký test na několika profilech, jak je uvedeno v kapitole~\ref{sec:vyber-vstup-stranek} Doporučení a výběr vstupních stránek, který ukázal výše zmíněné odlišnosti v doporučování. Seznam výsledných doporučených stránek nejvíce ovlivnil právě časový odstup, ve kterém bylo doporučeno 11 odlišných stránek oproti seznamu, který vznikl o 20 dní dříve. 
+    
+    Je otázkou, zda je vůbec možné na doporučení nahlížet objektivně. Může být totiž ovlivněné řadou faktorů jako například již stávajícími specifikacemi profilu, ze kterého jsou doporučení zobrazovány: seznam přátel, již zalikované stránky, předešlá aktivita apod. Pro zobrazení seznamu doporučených stránek je navíc nutné nejdříve jakoukoliv stránku liknout a i když následně její odebírání zrušíme, informace o liku a následném disliku je pravděpodobně uložena do FB databáze. Nikdy tedy nemůžeme stejnou akci na Facebooku provést za totožných podmínek. 
+    
+    Data byla navíc stahována během jednoho týdne a nikoli postupně, což mohlo mít samo o sobě vliv na skladbu stránek v datasetu. Jestliže se doporučení mění v čase, mohly tak být potenciálně získány lepší výsledky. Současná doporučení mohla být ovlivněna například aktuálním děním okolo klimatické změny a do seznamu se tak mohly dostat i stránky, které se běžně tomuto tématu tolik nevěnují (to platí i opačně pro případná data, která by byla sbírána později). 
+    
+    Dalším z limitů výzkumu, který je potřeba zmínit, je volba klíčových slov definující skóre, které bylo určující pro zařazení stránky jako klimatické. Ten byl zatížen vysokou mírou subjektivity, a to mohlo mít vliv na seznam výsledných klimaticky zaměře\-ných stránek v datasetu. Například mohlo být vybráno příliš málo slov nebo slova málo definující klimatickou změnu, což mohlo způsobit, že skóre u stránek, které se také věnují klimatické změně, nebylo dostatečně vysoké, aby prošly pomyslným sítem. 
+
+    Při případné replikaci výzkumu je doporučeno zvolit klíčová slova jiným způso\-bem. Napří\-klad udělat seznam nejčastěji používaných slov souhrnně na všech stránkách a vybrat určitý počet těch, které se vztahují k tématu klimatické změny a zároveň patří mezi nejpoužívanější. 
+    
+    Je potřeba zmínit, že doporučení je pro každou stránku sice osmnáct, ale při prvním zobrazení návrhů je možné v plném rozsahu vidět pouze 4 doporučení. Pro ostatní je potřeba listovat seznamem stránek. Pokud by chtěl jednotlivec zobrazit veškeré návrhy, musí až čtyřikrát kliknout na posuvník. 
+    
+    To je bezpochyby určitou bariérou pro uživatele, která má pravděpodobně vliv na skutečnou schopnost stránek prolamovat filtrační bubliny. Je rozdíl mezi stránkami, které prolamují filtrační bublinu a zároveň se vyskytují hned mezi prvními čtyřmi doporučeními, a těmi, co ji sice prolamují, ale nacházejí se až na posledním listu návrhů. Domnívat se, že každý uživatel projde celý seznam doporučení a zobrazí si tak všechny stránky, by v tomto případě bylo více než optimistické. Realitě by tedy více odpovídal přístup, který by doporučeným stránkám z dostupnějších listů dával také vyšší váhu. Tento faktor nebyl v analýze zohledněn, přestože jeho promítnutí by pomohlo vylepšit kvalitu výsledků. 
+    
+    Nakonec je ještě třeba zmínit analýzu interakcí na doporučených stránkách, která byla provedena spíše okrajově. Jejím hlavním cílem bylo přinést do výzkumu jistý druh kontextu, který by pomohl objasnit, proč se navrhované stránky šířily uvedeným způsobem, a jaký vliv tedy mají na prolamování filtračních bublin. 
+    
+    Tato část výzkumu by však mohla jít mnohem více do hloubky a uvést interakce do větší souvislosti nejen s druhem obsahu (video, obrázek, sdílení atd.) šířeného na konkrétní stránce, ale mohla být také provedena lingivistická analýza názvu stránek a zveřejněného obsahu. Tento druh analýzy by mohl poodhalit nové souvislosti určující pro doporučování obsahu. Například zda stránky, které používají podobný jazyk a emoční náboj, nejsou facebookovým algoritmem identifikovány jako podobné i přes jejich opačný postoj k problematice klimatické změny. Výzkum má proto potenciál pro další bádání. 
