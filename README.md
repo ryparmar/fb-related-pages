@@ -7,7 +7,7 @@ processing them and simple analysis of the recommended pages by Facebook algorit
 
 
 
-The repository consists of:
+## Repository description:
 <ul>
     <li><i>data</i></li>
         <ul>
